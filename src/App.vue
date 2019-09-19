@@ -1,17 +1,17 @@
-<template>
+git <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <ImageField options="isHighlight=true&q=yellow"/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import ImageField from './components/ImageField.vue'
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    ImageField
   }
 }
 </script>
