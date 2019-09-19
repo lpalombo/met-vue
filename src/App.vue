@@ -1,7 +1,7 @@
 git <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
-    <ImageField options="isHighlight=true&q=yellow"/>
+    <ImageField options="isHighlight=true&q=yellow" amount='2'/>
   </div>
 </template>
 
