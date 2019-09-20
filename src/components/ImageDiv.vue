@@ -83,7 +83,7 @@ export default {
       })
       .then((object) => {
         console.log(object);
-        this.imageURL = object.primaryImage;
+        this.imageURL = object.primaryImageSmall;
         this.department = object.department;
         this.title = object.title;
         this.date = object.objectDate;

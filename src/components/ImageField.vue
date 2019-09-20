@@ -1,10 +1,7 @@
 <template>
   <div class="image-field">
-    <ImageDiv
-      v-for="objectID in ids"
-      v-bind:objectID="objectID"
-      v-bind:key="objectID.id"
-    ></ImageDiv>
+    <ImageDiv v-if="id"
+      v-bind:objectID="id"></ImageDiv>
   </div>
 </template>
 
@@ -25,7 +22,15 @@ export default {
   },
   data: function(){
     return {
-      ids: []
+      id: null
+    }
+  },
+  methods: {
+    randomIndex(indexArray){
+      const randomIndex = Math.floor(Math.random() * indexArray.length);  
+      return indexArray.filter((el,index) => {
+        return  index === randomIndex;
+      })[0]
     }
   },
   created: function () {
@@ -34,11 +39,9 @@ export default {
         return res.json();
       })
       .then((object) => {
-        const newIds = object.objectIDs.filter((el,index) => {
-          return index < this.amount;
-        });
-        this.ids = newIds;
-        console.log(newIds);
+        const newId = this.randomIndex(object.objectIDs);
+        this.id = newId;
+        console.log(this.id);
       })
       .catch((error)=> {
         console.error(error);
