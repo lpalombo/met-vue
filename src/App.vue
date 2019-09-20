@@ -1,7 +1,6 @@
 git <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <ImageField options="isHighlight=true&q=yellow" amount='2'/>
+    <ImageField options="isHighlight=true&q=yellow" amount='1'/>
   </div>
 </template>
 
@@ -17,6 +16,14 @@ export default {
 </script>
 
 <style>
+body, html {
+  height: 100%;
+  width: 100%;
+}
+body{
+  background: rgb(236,236,236);
+  background: linear-gradient(0deg, rgba(236,236,236,1) 0%, rgba(255,255,255,1) 100%);
+}
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

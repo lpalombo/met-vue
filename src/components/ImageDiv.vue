@@ -1,12 +1,18 @@
 <template>
-  <div class="image-square">
-    <div v-if="loading">
-      <p>Loading...</p>
+  <div class="art-wrapper">
+    <div class="art-description">
+      <h3>{{title}}</h3>
+      <p>{{department}}</p>
+      <p>{{date}}</p>
     </div>
-    <div  v-show="!loading" >
-      <img ref="metImage" :src="imageURL" @load="loaded">
+    <div class="image-container">
+      <div ref="imagewrapper" class="image-wrapper">
+        <div v-if="loading">
+          <p>Loading...</p>
+        </div>
+        <img v-show="!loading" ref="metImage" :src="imageURL" @load="loaded" @click="expand">
+      </div>
     </div>
-   
   </div>
 </template>
 
@@ -21,19 +27,53 @@ export default {
   data: function() {
     return {
       imageURL: null,
-      loading: true
+      loading: true,
+      title: null,
+      department: null,
+      date: null,
+      imageDimensions: {
+        w: null,
+        h: null,
+        ratio: null
+      }
     }
   },
   methods: {
     loaded() {
       this.loading = false;
-      const { metImage } = this.$refs;
-      const timeline = new TimelineLite()
+      const { metImage, imagewrapper } = this.$refs;
 
-      timeline.to(metImage, 1, {
-        rotation: 90,
-        ease: Back.easeInOut, // Specify an ease
-      })
+      //populate image dimensions
+      this.imageDimensions.w = metImage.width;
+      this.imageDimensions.h = metImage.height;
+      this.imageDimensions.ratio = metImage.width/metImage.height;
+
+      const newDimensions = this.calculateAspectRatioFit(
+        metImage.width,
+        metImage.height,
+        imagewrapper.clientWidth-100,
+        imagewrapper.clientHeight-100);
+      
+      console.log(newDimensions);
+      metImage.width = newDimensions.width;
+      metImage.height = newDimensions.height;
+
+    },
+    expand() {
+      const { imagewrapper } = this.$refs
+      const timeline = new TimelineLite()
+      
+      timeline.to(imagewrapper, 0.4, {
+      }) 
+    },
+    calculateAspectRatioFit(srcWidth, srcHeight, maxWidth, maxHeight) {
+      var ratio = Math.min(maxWidth / srcWidth, maxHeight / srcHeight);
+      return { width: srcWidth*ratio, height: srcHeight*ratio }; 
+    }
+  },
+  computed: {
+    newImageDimensions: function (){
+      return null //change
     }
   },
   mounted: function () {
@@ -42,8 +82,11 @@ export default {
         return res.json();
       })
       .then((object) => {
-        console.log(object); //don't render element until image finishes loading
+        console.log(object);
         this.imageURL = object.primaryImage;
+        this.department = object.department;
+        this.title = object.title;
+        this.date = object.objectDate;
       })
       .catch((error)=> {
         console.error(error);
@@ -54,12 +97,25 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.image-square{
-  width: 100px;
-  height: 100px;
-  position: relative;
+.image-container{
+  flex: 1;
 }
-.image-square img{
-  height: 100px;
+.image-wrapper{
+
+  box-sizing: border-box;
+  height: 800px;
+  background-color: red;
+}
+.art-wrapper{
+  display:flex;
+}
+.art-description{
+  flex: 1;
+}
+.image-wrapper img{
+
+}
+.fixed{
+  position: fixed;
 }
 </style>
