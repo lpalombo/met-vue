@@ -1,6 +1,6 @@
 git <template>
   <div id="app">
-    <ImageField options="hasImages=true&q=painting" amount='2'/>
+    <ImageField options="hasImages=true&q=painting"/>
   </div>
 </template>
 
@@ -30,6 +30,5 @@ body{
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>

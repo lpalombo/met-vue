@@ -4,6 +4,7 @@
       <h3>{{title}}</h3>
       <p>{{department}}</p>
       <p>{{date}}</p>
+      <button @click="remove">Remove artwork</button>
     </div>
     <div class="image-container">
       <div ref="imagewrapper" class="image-wrapper">
@@ -69,6 +70,9 @@ export default {
     calculateAspectRatioFit(srcWidth, srcHeight, maxWidth, maxHeight) {
       var ratio = Math.min(maxWidth / srcWidth, maxHeight / srcHeight);
       return { width: srcWidth*ratio, height: srcHeight*ratio }; 
+    },
+    remove(){
+      this.$emit('remove');
     }
   },
   computed: {

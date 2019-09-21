@@ -1,7 +1,13 @@
 <template>
   <div class="image-field">
-    <ImageDiv v-if="id"
-      v-bind:objectID="id"></ImageDiv>
+    <button @click="createNewImage">Add new art piece</button>
+    <ImageDiv
+      v-for="(Image, index) in images"
+      v-bind:objectID="Image.objectId"
+      v-bind:key="Image.id"
+      @remove="images.splice(index, 1)"
+    >
+    </ImageDiv>
   </div>
 </template>
 
@@ -11,18 +17,16 @@ import ImageDiv from './ImageDiv.vue'
 export default {
   name: 'ImageField',
   props: {
-    options: String, //todo: api options as proper props
-    amount: {
-      type: Number,
-      default: 5
-    }
+    options: String //todo: api options as proper props
   },
   components: {
     ImageDiv
   },
   data: function(){
     return {
-      id: null
+      ids: [],
+      images: [],
+      nextImageId: 0
     }
   },
   methods: {
@@ -31,6 +35,21 @@ export default {
       return indexArray.filter((el,index) => {
         return  index === randomIndex;
       })[0]
+    },
+    createNewImage(){
+      if(this.ids.length)
+        this.images.push(
+          {
+            id: this.nextImageId++,
+            objectId: this.randomIndex(this.ids)
+          });
+      else{
+        console.error("ID array currently empty");
+      }
+    },
+    removeElement: function (index) {
+      this.$delete(this.images,index);
+      console.log(index);
     }
   },
   created: function () {
@@ -39,9 +58,8 @@ export default {
         return res.json();
       })
       .then((object) => {
-        const newId = this.randomIndex(object.objectIDs);
-        this.id = newId;
-        console.log(this.id);
+        //const newId = this.randomIndex(object.objectIDs);
+        this.ids = object.objectIDs;
       })
       .catch((error)=> {
         console.error(error);
