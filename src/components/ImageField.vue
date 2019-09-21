@@ -1,5 +1,5 @@
 <template>
-  <div class="image-field">
+  <div ref="field" class="image-field">
     <button @click="createNewImage">Add new art piece</button>
     <ImageDiv
       v-for="(Image, index) in images"

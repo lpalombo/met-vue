@@ -59,13 +59,14 @@ export default {
       metImage.width = newDimensions.width;
       metImage.height = newDimensions.height;
 
+      this.$emit('loaded');
+      this.expand();
     },
     expand() {
       const { imagewrapper } = this.$refs
       const timeline = new TimelineLite()
       
-      timeline.to(imagewrapper, 0.4, {
-      }) 
+      timeline.from(imagewrapper, 1, {scaleX:2}); 
     },
     calculateAspectRatioFit(srcWidth, srcHeight, maxWidth, maxHeight) {
       var ratio = Math.min(maxWidth / srcWidth, maxHeight / srcHeight);
