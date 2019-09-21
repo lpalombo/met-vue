@@ -1,5 +1,5 @@
 <template>
-  <div class="art-wrapper">
+  <div ref="wrapper" class="art-wrapper">
     <div class="art-description">
       <h3>{{title}}</h3>
       <p>{{department}}</p>
@@ -63,17 +63,22 @@ export default {
       this.expand();
     },
     expand() {
-      const { imagewrapper } = this.$refs
+      const { wrapper } = this.$refs
       const timeline = new TimelineLite()
       
-      timeline.from(imagewrapper, 1, {scaleX:2}); 
+      timeline.to(wrapper, 1, {xPercent:-100}); 
     },
     calculateAspectRatioFit(srcWidth, srcHeight, maxWidth, maxHeight) {
       var ratio = Math.min(maxWidth / srcWidth, maxHeight / srcHeight);
       return { width: srcWidth*ratio, height: srcHeight*ratio }; 
     },
     remove(){
-      this.$emit('remove');
+      const { wrapper } = this.$refs
+      const timeline = new TimelineLite()
+      
+      timeline.to(wrapper, 1, {xPercent:-200, onComplete:()=> {
+        this.$emit('remove');
+      }}); 
     }
   },
   computed: {
@@ -113,6 +118,7 @@ export default {
 }
 .art-wrapper{
   display:flex;
+  transform: translateX(100%);
 }
 .art-description{
   flex: 1;
