@@ -2,9 +2,10 @@
   <div ref="wrapper" class="art-wrapper">
     <div class="art-description vertical-center">
       <div class="art-plaque">
-        <h3>{{title}}</h3>
+        <h3 v-if="artist" class="art-text-artist">{{artist}}<span v-if="artistBio"> ({{artistBio}})</span></h3>
+        <h3 class="art-text-title">{{title}}<span>, {{date}}</span></h3>
+        <p v-if="medium" class="art-text-medium">{{medium}}</p>
         <p>{{department}}</p>
-        <p>{{date}}</p>
         <button @click="remove">Remove artwork</button>
       </div>
     </div>
@@ -31,6 +32,9 @@ export default {
       title: null,
       department: null,
       date: null,
+      artist: null,
+      artistBio: null,
+      medium: null,
       imageDimensions: {
         w: null,
         h: null,
@@ -72,7 +76,7 @@ export default {
     remove(){
       const { wrapper } = this.$refs
       
-      TweenLite.to(wrapper, 1, {xPercent:-200, onComplete:()=> {
+      TweenLite.to(wrapper, 1, {xPercent:-200, onComplete:() => {
         this.$emit('remove');
       }}); 
     }
@@ -93,6 +97,9 @@ export default {
         this.department = object.department;
         this.title = object.title;
         this.date = object.objectDate;
+        this.artist = object.artistDisplayName;
+        this.medium = object.medium;
+        this.artistBio = object.artistDisplayBio;
       })
       .catch((error)=> {
         console.error(error);
@@ -119,13 +126,33 @@ export default {
   flex: 1;
 }
 .art-plaque{
-  width: 300px;
+  width: 400px;
   background-color: white;
   box-shadow: 0px 5px 20px 1px rgba(0,0,0,0.05);
+  text-align: left;
+  padding: 20px;
+  padding-bottom: 100px;
+  font-size: 10px;
+}
+.art-plaque h3{
+  margin-top: 0px;
+  margin-bottom: 5px;
+  font-size: 16px;
+}
+.art-text-title{
+  font-style: italic;
+}
+h3 span{
+  font-weight: normal;
+}
+.art-text-medium{
+  font-size: 12px;
+  margin: 20px 0;
 }
 .image-wrapper img{
   border: 80px solid;
   border-image: url("../assets/frame_asset.png") 80 repeat;
+  box-shadow: 0px 5px 20px 1px rgba(0,0,0,0.2);
 }
 .vertical-center{
   display: flex;
