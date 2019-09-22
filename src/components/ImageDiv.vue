@@ -1,16 +1,15 @@
 <template>
   <div ref="wrapper" class="art-wrapper">
-    <div class="art-description">
-      <h3>{{title}}</h3>
-      <p>{{department}}</p>
-      <p>{{date}}</p>
-      <button @click="remove">Remove artwork</button>
+    <div class="art-description vertical-center">
+      <div class="art-plaque">
+        <h3>{{title}}</h3>
+        <p>{{department}}</p>
+        <p>{{date}}</p>
+        <button @click="remove">Remove artwork</button>
+      </div>
     </div>
     <div class="image-container">
-      <div ref="imagewrapper" class="image-wrapper">
-        <div v-if="loading">
-          <p>Loading...</p>
-        </div>
+      <div ref="imagewrapper" class="image-wrapper vertical-center">
         <img v-show="!loading" ref="metImage" :src="imageURL" @load="loaded">
       </div>
     </div>
@@ -108,21 +107,30 @@ export default {
   flex: 1;
 }
 .image-wrapper{
-
   box-sizing: border-box;
-  height: 800px;
-  background-color: red;
+  min-height: 800px;
 }
 .art-wrapper{
   display:flex;
   transform: translateX(100%);
+  padding: 0 100px;
 }
 .art-description{
   flex: 1;
 }
+.art-plaque{
+  width: 300px;
+  background-color: white;
+  box-shadow: 0px 5px 20px 1px rgba(0,0,0,0.05);
+}
 .image-wrapper img{
   border: 80px solid;
   border-image: url("../assets/frame_asset.png") 80 repeat;
+}
+.vertical-center{
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
 }
 .fixed{
   position: fixed;
