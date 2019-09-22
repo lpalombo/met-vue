@@ -52,8 +52,8 @@ export default {
       const newDimensions = this.calculateAspectRatioFit(
         metImage.width,
         metImage.height,
-        imagewrapper.clientWidth-100,
-        imagewrapper.clientHeight-100);
+        imagewrapper.clientWidth-160,
+        imagewrapper.clientHeight-160);
       
       console.log(newDimensions);
       metImage.width = newDimensions.width;
@@ -121,7 +121,8 @@ export default {
   flex: 1;
 }
 .image-wrapper img{
-
+  border: 80px solid;
+  border-image: url("../assets/frame_asset.png") 80 repeat;
 }
 .fixed{
   position: fixed;
