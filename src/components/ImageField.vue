@@ -1,11 +1,10 @@
 <template>
   <div ref="field" class="image-field">
-    <button @click="createNewImage">Add new art piece</button>
     <ImageDiv
       v-for="(Image, index) in images"
       v-bind:objectID="Image.objectId"
       v-bind:key="Image.id"
-      @remove="images.splice(index, 1)"
+      @remove="removeElement"
     >
     </ImageDiv>
   </div>
@@ -47,9 +46,9 @@ export default {
         console.error("ID array currently empty");
       }
     },
-    removeElement: function (index) {
-      this.$delete(this.images,index);
-      console.log(index);
+    removeElement: function (index) {  
+      this.images.splice(index, 1)
+      this.createNewImage();
     }
   },
   created: function () {
@@ -60,6 +59,7 @@ export default {
       .then((object) => {
         //const newId = this.randomIndex(object.objectIDs);
         this.ids = object.objectIDs;
+        this.createNewImage();
       })
       .catch((error)=> {
         console.error(error);

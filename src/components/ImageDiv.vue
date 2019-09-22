@@ -11,14 +11,14 @@
         <div v-if="loading">
           <p>Loading...</p>
         </div>
-        <img v-show="!loading" ref="metImage" :src="imageURL" @load="loaded" @click="expand">
+        <img v-show="!loading" ref="metImage" :src="imageURL" @load="loaded">
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { TimelineLite, Back } from 'gsap'
+import { TimelineLite, Back, TweenLite } from 'gsap'
 
 export default {
   name: 'ImageDiv',
@@ -60,13 +60,11 @@ export default {
       metImage.height = newDimensions.height;
 
       this.$emit('loaded');
-      this.expand();
+      this.animateIn();
     },
-    expand() {
+    animateIn() {
       const { wrapper } = this.$refs
-      const timeline = new TimelineLite()
-      
-      timeline.to(wrapper, 1, {xPercent:-100}); 
+      TweenLite.to(wrapper, 1, {xPercent:-100}); 
     },
     calculateAspectRatioFit(srcWidth, srcHeight, maxWidth, maxHeight) {
       var ratio = Math.min(maxWidth / srcWidth, maxHeight / srcHeight);
@@ -74,9 +72,8 @@ export default {
     },
     remove(){
       const { wrapper } = this.$refs
-      const timeline = new TimelineLite()
       
-      timeline.to(wrapper, 1, {xPercent:-200, onComplete:()=> {
+      TweenLite.to(wrapper, 1, {xPercent:-200, onComplete:()=> {
         this.$emit('remove');
       }}); 
     }
