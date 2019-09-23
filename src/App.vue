@@ -1,6 +1,6 @@
 git <template>
   <div id="app">
-    <ImageField options="isHighlight=true&hasImages=true&q=portrait"/>
+    <ImageField options="isHighlight=true&hasImages=true&medium=Paintings&q=portrait"/>
   </div>
 </template>
 

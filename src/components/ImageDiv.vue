@@ -78,7 +78,7 @@ export default {
     remove(){
       const { wrapper } = this.$refs
       
-      TweenLite.to(wrapper, 1, {xPercent:-200, delay: 2, onComplete:() => {
+      TweenLite.to(wrapper, 1, {xPercent:-200, delay: 3, onComplete:() => {
         this.$emit('remove');
       }}); 
     },
