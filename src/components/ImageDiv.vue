@@ -6,12 +6,13 @@
         <h3 class="art-text-title">{{title}}<span>, {{date}}</span></h3>
         <p v-if="medium" class="art-text-medium">{{medium}}</p>
         <p>{{department}}</p>
-        <button @click="remove">Remove artwork</button>
       </div>
     </div>
     <div class="image-container">
-      <div ref="imagewrapper" class="image-wrapper vertical-center">
-        <img v-show="!loading" ref="metImage" :src="imageURL" @load="loaded">
+      <div ref="imagewrapper" class="image-wrapper vertical-center" @click="imageClick">
+        <img class="frameimg" v-show="!loading" ref="metImage" :src="imageURL" @load="loaded">
+        <img ref="googly1" class="googly" src="@/assets/googlyeye.svg">
+        <img ref="googly2" class="googly" src="@/assets/googlyeye.svg">
       </div>
     </div>
   </div>
@@ -35,6 +36,7 @@ export default {
       artist: null,
       artistBio: null,
       medium: null,
+      clickCounter: 0,
       imageDimensions: {
         w: null,
         h: null,
@@ -76,9 +78,29 @@ export default {
     remove(){
       const { wrapper } = this.$refs
       
-      TweenLite.to(wrapper, 1, {xPercent:-200, onComplete:() => {
+      TweenLite.to(wrapper, 1, {xPercent:-200, delay: 2, onComplete:() => {
         this.$emit('remove');
       }}); 
+    },
+    imageClick(event) {
+        const { imagewrapper, googly1, googly2 } = this.$refs
+        const imageRect = imagewrapper.getBoundingClientRect();
+        
+        const posX = event.clientX-imageRect.left-(googly1.clientWidth/2);
+        const posY = event.clientY-imageRect.top-(googly1.clientWidth/2);
+
+        this.clickCounter++;
+
+        const currentGoogly = this.clickCounter == 1 ? googly1 : googly2;
+
+        if(this.clickCounter <= 2){
+          currentGoogly.setAttribute("style","left: "+posX+"px; top: "+posY+"px");
+          TweenLite.from(currentGoogly, 2, {rotation: -180, ease: Elastic.easeOut.config(1, 0.3)});
+          if(this.clickCounter >= 2)
+            this.remove();
+        }
+        
+
     }
   },
   computed: {
@@ -116,6 +138,8 @@ export default {
 .image-wrapper{
   box-sizing: border-box;
   min-height: 800px;
+  position:relative;
+  overflow: hidden;
 }
 .art-wrapper{
   display:flex;
@@ -149,15 +173,27 @@ h3 span{
   font-size: 12px;
   margin: 20px 0;
 }
-.image-wrapper img{
+.image-wrapper .frameimg{
   border: 80px solid;
   border-image: url("../assets/frame_asset.png") 80 repeat;
   box-shadow: 0px 5px 20px 1px rgba(0,0,0,0.2);
+}
+.googly{
+  height: 30px;
+  width: 30px;
+  position: absolute;
+  left: -100px;
+  right: -100px;
 }
 .vertical-center{
   display: flex;
   flex-flow: column;
   justify-content: center;
+}
+.bottom-corner{
+  display: flex;
+  flex-flow: column;
+  justify-content:flex-end;
 }
 .fixed{
   position: fixed;
