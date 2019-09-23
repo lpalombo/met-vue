@@ -1,29 +1,9 @@
-# vuepractice
+# A Day at the Met
+
+Inspired by recent events and dark urges at New York's Metropolitan Museum of Art. This is a simple project meant to practice using Vue and various JS and animation concepts.
 
 ## Project setup
 ```
 npm install
-```
-
-### Compiles and hot-reloads for development
-```
 npm run serve
 ```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
